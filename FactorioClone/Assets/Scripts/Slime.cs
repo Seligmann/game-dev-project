@@ -34,14 +34,32 @@ public class Slime : MonoBehaviour
         iron += 1;
     }
 
-    // void OnTriggerEnter2D(Collider2D other) {
-    //     if (other.CompareTag("Token")) {
-    //         tokenSpawner.GetComponent<AudioSource>().Play();
-    //         Destroy(other.gameObject);
-    //         IncreasePoints();
-    //     } else if (other.CompareTag("Asteroid")) {
-    //         SceneManager.LoadScene("MainMenu");
-    //         ResetPoints();
-    //     }
-    // }
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            iron = 0;
+            coal = 0;
+            machinesInInven = 0;
+            GameObject[] machines = GameObject.FindGameObjectsWithTag("Machine");
+
+            foreach (GameObject machine in machines)
+            {
+                Destroy(machine);
+            }
+            GameObject[] coals = GameObject.FindGameObjectsWithTag("Coal");
+
+            foreach (GameObject coalOre in coals)
+            {
+                Destroy(coalOre);
+            }
+            GameObject[] irons = GameObject.FindGameObjectsWithTag("Iron");
+
+            foreach (GameObject ironOre in irons)
+            {
+                Destroy(ironOre);
+            }
+            SceneManager.LoadScene("MainMenu");
+        }
+    }
 }

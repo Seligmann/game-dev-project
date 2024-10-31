@@ -9,6 +9,7 @@ TagManager:
   - Token
   - Coal
   - Iron
+  - Machine
   layers:
   - Default
   - TransparentFX
