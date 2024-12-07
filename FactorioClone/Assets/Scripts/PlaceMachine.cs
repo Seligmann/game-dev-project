@@ -12,6 +12,8 @@ public class PlaceMachine : MonoBehaviour
     public float timer = 0;
     private const int NUM_IRON_REQ_MACHINE = 20;
 
+    private List<MachineNode> activeMachines = new List<MachineNode>();
+
     private void Start()
     {
         slimeInstance = FindObjectOfType<Slime>();
@@ -20,8 +22,9 @@ public class PlaceMachine : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer >= spawnTime) {
-            IncreaseOreCountFromMachines();
+        if (timer >= spawnTime)
+        {
+            HarvestResourcesFromMachines();
             timer = 0;
         }
 
@@ -32,35 +35,58 @@ public class PlaceMachine : MonoBehaviour
 
             if (hitCollider != null && slimeInstance.machinesInInven > 0)
             {
-                // FIXME add check to see if there's a machine already on the ore
-                Debug.Log("hit collider tag = " + hitCollider.tag);
-                if (hitCollider.CompareTag("Coal"))
+                ResourceNode resourceNode = hitCollider.GetComponent<ResourceNode>();
+                if (resourceNode != null && resourceNode.GetRemainingResources() > 0)
                 {
-                    PlaceMachineOnTile(hitCollider.transform.position);
-                    numMachinesOnCoal++;
+                    PlaceMachineOnTile(hitCollider.transform.position, resourceNode);
                     slimeInstance.machinesInInven--;
-                    Debug.Log("Current number of machines on coal = " + numMachinesOnCoal);
                 }
-                else if (hitCollider.CompareTag("Iron"))
+                else
                 {
-                    PlaceMachineOnTile(hitCollider.transform.position);
-                    numMachinesOnIron++;
-                    slimeInstance.machinesInInven--;
-                    Debug.Log("Current number of machines on iron = " + numMachinesOnIron);
+                    Debug.Log("Cannot place a machine here. Resource is depleted or invalid.");
                 }
             }
         }
     }
 
-    private void PlaceMachineOnTile(Vector2 position)
+    private void PlaceMachineOnTile(Vector2 position, ResourceNode resourceNode)
     {
         Instantiate(machinePrefab, position, Quaternion.identity);
+        activeMachines.Add(new MachineNode(resourceNode));
         Debug.Log("Placed machine at position: " + position);
     }
 
-    private void IncreaseOreCountFromMachines()
+    private void HarvestResourcesFromMachines()
     {
-        slimeInstance.coal += numMachinesOnCoal;
-        slimeInstance.iron += numMachinesOnIron;
+        for (int i = activeMachines.Count - 1; i >= 0; i--)
+        {
+            MachineNode machine = activeMachines[i];
+            if (machine.ResourceNode.Mine(1))
+            {
+                if (machine.ResourceNode.CompareTag("Coal"))
+                {
+                    slimeInstance.IncreaseCoal();
+                }
+                else if (machine.ResourceNode.CompareTag("Iron"))
+                {
+                    slimeInstance.IncreaseIron();
+                }
+            }
+            else
+            {
+                Debug.Log("Machine resource depleted. Machine is now inactive.");
+                activeMachines.RemoveAt(i);
+            }
+        }
+    }
+
+    private class MachineNode
+    {
+        public ResourceNode ResourceNode { get; }
+
+        public MachineNode(ResourceNode resourceNode)
+        {
+            ResourceNode = resourceNode;
+        }
     }
 }

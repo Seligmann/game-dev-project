@@ -14,7 +14,8 @@ public class Crafting : MonoBehaviour
         slimeInstance = FindObjectOfType<Slime>();
     }
 
-    public void CraftMachine() {
+    public void CraftMachine()
+    {
         if (slimeInstance.iron < NUM_IRON_REQ_MACHINE)
         {
             return;

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class IronCounter : MonoBehaviour
+public class HpCounter : MonoBehaviour
 {
     [SerializeField] PlayerInput playerInput;
-    [SerializeField] TextMeshProUGUI ironText;
+    [SerializeField] TextMeshProUGUI hpText;
 
     void Update()
     {
-        ironText.text = playerInput.GetPlayerSlime().iron.ToString();
+        hpText.text = playerInput.GetPlayerSlime().hp.ToString();
     }
 }

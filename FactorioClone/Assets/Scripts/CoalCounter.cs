@@ -9,7 +9,8 @@ public class PointCounter : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] TextMeshProUGUI coalText;
 
-    void Update() {
+    void Update()
+    {
         coalText.text = playerInput.GetPlayerSlime().coal.ToString();
     }
 }

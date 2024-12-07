@@ -4,7 +4,6 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
-// Creature.cs
 public class DiscreteMovement : MonoBehaviour
 {
 

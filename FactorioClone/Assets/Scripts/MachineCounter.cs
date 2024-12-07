@@ -8,7 +8,8 @@ public class MachineCounter : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] TextMeshProUGUI machinesInInvenText;
 
-    void Update() {
+    void Update()
+    {
         machinesInInvenText.text = playerInput.GetPlayerSlime().machinesInInven.ToString();
     }
 }

@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FieldOfSlimes.unity
     guid: 81275fd8e1b4ebf4287b9dfc9c1bbbfe
+  - enabled: 1
+    path: Assets/Scenes/OptionsMenu.unity
+    guid: ad21abce977d8174582c99b967000981
   m_configObjects: {}
